@@ -1,0 +1,80 @@
+<div id="main">
+	<div id="left">
+		<div id="datetime">
+			<div id="time">
+				{{formatDate(now, "hh:mm:ss")}}
+			</div>
+			<div id="date">
+				{{formatDate(today, "yyyy年MM月dd日")}} {{getDay(today)}}<br>
+        <span class="lunar-date">
+          农历{{calendarService.sloarToLunar(today).lunarYear}}年{{calendarService.sloarToLunar(today).lunarMonth}}月{{calendarService.sloarToLunar(today).lunarDay}}
+        </span>
+			</div>
+			
+		</div>
+		<div id="weather">
+
+		</div>
+	</div>
+	<div id='right'>
+		<div id="calendar">
+			<div class="calendar-item title">
+				日
+			</div>
+			<div class="calendar-item title">
+				一
+			</div>
+			<div class="calendar-item title">
+				二
+			</div>
+			<div class="calendar-item title">
+				三
+			</div>
+			<div class="calendar-item title">
+				四
+			</div>
+			<div class="calendar-item title">
+				五
+			</div>
+			<div class="calendar-item title">
+				六
+			</div>
+      <ng-container *ngFor="let cal of calc">
+        <div *ngIf="!cal" class="calendar-item">
+        </div>
+        <div *ngIf="cal && cal.getMonth() != today.getMonth()" class="calendar-item other-month">
+          {{cal.getDate()}}<br>
+          <span *ngIf="calendarService.sloarToLunar(cal).lunarDay == '初一'" class="lunar">
+            {{calendarService.sloarToLunar(cal).lunarMonth}}月
+          </span>
+          <span *ngIf="calendarService.sloarToLunar(cal).lunarDay != '初一'" class="lunar">
+            {{calendarService.sloarToLunar(cal).lunarDay}}
+          </span>
+        </div>
+        <div *ngIf="cal && cal.getMonth() == today.getMonth() && cal.getDate() == today.getDate()" class="calendar-item today">
+          {{cal.getDate()}}<br>
+          <span *ngIf="calendarService.sloarToLunar(cal).lunarDay == '初一'" class="lunar">
+            {{calendarService.sloarToLunar(cal).lunarMonth}}月
+          </span>
+          <span *ngIf="calendarService.sloarToLunar(cal).lunarDay != '初一'" class="lunar">
+            {{calendarService.sloarToLunar(cal).lunarDay}}
+          </span>
+        </div>
+        <div *ngIf="cal && cal.getMonth() == today.getMonth() && cal.getDate() != today.getDate()" class="calendar-item">
+          {{cal.getDate()}}<br>
+          <span *ngIf="calendarService.sloarToLunar(cal).lunarDay == '初一'" class="lunar">
+            {{calendarService.sloarToLunar(cal).lunarMonth}}月
+          </span>
+          <span *ngIf="calendarService.sloarToLunar(cal).lunarDay != '初一'" class="lunar">
+            {{calendarService.sloarToLunar(cal).lunarDay}}
+          </span>
+        </div>
+      </ng-container>
+
+		</div>
+		<div id="todo">
+
+		</div>
+	</div>
+</div>
+
