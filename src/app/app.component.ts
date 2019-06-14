@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {CalendarService} from "./services/calendar.service";
+import {WeatherService} from "./services/weather.service";
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,8 @@ export class AppComponent {
   now = new Date();
   today = new Date();
   calc: Date[] = [];
-  constructor(public calendarService: CalendarService) {
+  constructor(public calendarService: CalendarService,
+              public weatherService: WeatherService) {
     setInterval(()=>{
       let temp = new Date();
       if(temp.getDate() != this.now.getDate()){
@@ -20,6 +22,18 @@ export class AppComponent {
       this.now = temp;
     }, 1000);
 
+    this.initCalc();
+    this.weatherService.getNowWeather()
+      .subscribe(item => {
+      console.log(item);
+    })
+    this.weatherService.getForecast()
+      .subscribe(item => {
+        console.log(item);
+      })
+  }
+
+  public initCalc(){
     let date = new Date();
     date.setDate(1);
     for(let i=0; i<date.getDay(); i++){
@@ -42,7 +56,6 @@ export class AppComponent {
       c.setDate(date.getDate())
       this.calc.push(c);
     }
-
   }
 
   public getDay(date: Date){
@@ -70,7 +83,7 @@ export class AppComponent {
     if(/(y+)/.test(fmt)) {
             fmt=fmt.replace(RegExp.$1, (date.getFullYear()+"").substr(4 - RegExp.$1.length)); 
     }
-     for(var k in o) {
+     for(let k in o) {
         if(new RegExp("("+ k +")").test(fmt)){
              fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
          }
